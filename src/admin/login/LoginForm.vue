@@ -142,7 +142,7 @@ export default {
             this.loginFormErrorAlert.dismissCountDown = 3;
             this.loginFormErrorAlert.errorMessage = "登陆失败";
           } else {
-            this.$router.replace(this.$route.query.redirect || "/admin");
+            this.$router.replace(this.$route.query.redirect || "/");
           }
         }
       );
