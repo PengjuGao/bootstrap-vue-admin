@@ -2,7 +2,7 @@
 import AdminLayout from "./../../admin/Layout.vue";
 
 // admin 布局
-const layout = { path: "/admin", name: "admin", component: AdminLayout };
+const layout = { path: "/", name: "admin", component: AdminLayout };
 
 // admin 主页
 const dashboard = {

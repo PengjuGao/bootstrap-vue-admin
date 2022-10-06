@@ -6,7 +6,7 @@ import Router from "vue-router";
 Vue.use(Router);
 
 // 网站前台
-import { webLayoutRouter } from "./web/layout";
+//import { webLayoutRouter } from "./web/layout";
 
 // 登陆退出
 import {
@@ -27,12 +27,12 @@ const router = new Router({
   routes: [
     adminLoginRouter, // 管理员登陆
     adminLogoutRouter, // 管理员注销
-    {
+    /*{
       // 网站前台
       path: webLayoutRouter.path,
       name: webLayoutRouter.name,
       component: webLayoutRouter.component
-    },
+    },*/
     {
       // 管理后台
       path: adminLayoutRouter.path,
