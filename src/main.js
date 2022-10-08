@@ -24,7 +24,9 @@ Vue.config.productionTip = false; // 设置为 false 以阻止 vue 在启动时�
 // Vue.config.silent = true;// 取消 Vue 所有的日志与警告。(默认值：false)
 
 // render
-new Vue({
+var context = new Vue({
   router,
   render: h => h(App)
 }).$mount("#app");
+
+export  default  context

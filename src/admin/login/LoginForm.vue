@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import auth from "./auth";
-
+//import auth from "./auth";
+import login from "@/admin/login/login";
 export default {
   // 模板名
   name: "AdminLoginForm",
@@ -134,7 +134,7 @@ export default {
     onSubmitLogin(evt) {
       evt.preventDefault();
       // alert(JSON.stringify(this.loginFormData));
-      auth.login(
+      login.sysUserLogin(
         this.loginFormData.account,
         this.loginFormData.password,
         loggedIn => {
