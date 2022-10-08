@@ -10,6 +10,9 @@ import router from "./routers/router.js";
 import BootstrapVue from "bootstrap-vue";
 
 Vue.use(BootstrapVue);
+//axios
+import axios from 'axios'
+Vue.prototype.$http=axios
 
 // bootstrap-vue css
 import "bootstrap/dist/css/bootstrap.css";

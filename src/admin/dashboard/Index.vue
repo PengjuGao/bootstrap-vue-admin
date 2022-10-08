@@ -60,3 +60,17 @@
     </b-row>
   </b-container>
 </template>
+<script>
+export default {
+  methods:{
+    doIt(){
+      this.$http.get("api/test/test").then(res=>{
+        console.log("======res.data======"+res.data)
+      })
+    }
+  },
+  mounted() {
+    this.doIt();
+  }
+}
+</script>

@@ -4,7 +4,16 @@ module.exports = {
   runtimeCompiler: true,
   lintOnSave: false,
   devServer: {
-    port: 8027
+    port: 8027,
     // proxy: 'http://localhost:8027'
+    proxy:{
+      '/api':{
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/api':'/'
+        }
+      }
+    }
   }
 };

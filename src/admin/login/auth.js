@@ -9,8 +9,8 @@ export default {
     // 使用 arguments 获取
     // 作用 确保 if (cb) = true
     // 不传回调参数控制台报错 ： 无法进行登陆
+    console.log("-----arguments----"+arguments[arguments.length - 1])
     cb = arguments[arguments.length - 1];
-
     // 已登陆
     if (localStorage.token) {
       // 如果有回调函数，执行回调函数
@@ -30,6 +30,10 @@ export default {
         // 设置 token
         localStorage.token = res.token;
         // 如果有回调函数，执行回调函数
+        if(!cb) {console.log("-----cb---not true")}
+        else{
+          console.log("right---"+JSON.stringify(cb))
+        }
         if (cb) cb(true);
         // 登陆成功后需要改变某些状态
         this.onChange(true);
@@ -74,6 +78,7 @@ function pretendRequest(email, pass, cb) {
   setTimeout(() => {
     // 登陆
     if (email === "ikaiguang@github.com") {
+      console.log("------email----正确")
       cb({
         authenticated: true,
         token: Math.random()
