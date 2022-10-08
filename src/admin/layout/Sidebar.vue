@@ -39,7 +39,7 @@ export default {
     showMenu:function(){
       const token = window.localStorage.getItem("customerInfo");
       this.$http.post("/api/tbMenu/getMenuList",{},{
-        header:{
+        headers:{
           "token":token
         }
       }).then(res=>{
