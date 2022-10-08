@@ -16,117 +16,39 @@
     </div>
 
     <b-nav vertical id="admin-sidebar-menu">
-      <b-nav-text
-        tag="li"
-        :class="{ active: this.$route.path === '/admin/dashboard' }"
-      >
-        <router-link to="/admin/dashboard">
-          <i class="icon icon-home"></i><span>Dashboard</span>
-        </router-link>
-      </b-nav-text>
-
-      <b-nav-text
-        tag="li"
-        :class="{ active: this.$route.path === '/admin/icon' }"
-      >
-        <router-link to="/admin/icon">
-          <i class="icon icon-tint"></i><span>Icon</span>
-        </router-link>
-      </b-nav-text>
-
-      <b-nav-text
-        tag="li"
-        :class="{ active: this.$route.path === '/admin/table' }"
-      >
-        <router-link to="/admin/table">
-          <i class="icon icon-th-list"></i><span>Table</span>
-        </router-link>
-      </b-nav-text>
-
-      <b-nav-text
-        tag="li"
-        :class="{ active: this.$route.path === '/admin/timeline' }"
-      >
-        <router-link to="/admin/timeline">
-          <i class="icon icon-time"></i><span>Timeline</span>
-        </router-link>
-      </b-nav-text>
-
-      <b-nav-text tag="li" class="submenu">
-        <a href="#"><i class="icon icon-inbox"></i><span>二级菜单</span></a>
-
-        <b-nav vertical>
-          <b-nav-item>
-            <i class="icon icon-road"></i><span>微信</span>
-          </b-nav-item>
-
-          <b-nav-item>
-            <i class="icon icon-book"></i><span>微博</span>
-          </b-nav-item>
-
-          <b-nav-text tag="li" class="submenu">
-            <a href="#"><i class="icon icon-tint"></i><span>三级菜单</span></a>
-
-            <b-nav vertical>
-              <b-nav-item>
-                <i class="icon icon-bell"></i><span>Key</span>
-              </b-nav-item>
-
-              <b-nav-item>
-                <i class="icon icon-file"></i><span>Keyboard</span>
-              </b-nav-item>
-            </b-nav>
-          </b-nav-text>
-
-          <b-nav-text tag="li" class="submenu">
-            <a href="#"
-              ><i class="icon icon-align-justify"></i><span>另一三级</span></a
-            >
-
-            <b-nav vertical>
-              <b-nav-item>
-                <i class="icon icon-retweet"></i><span>Magic</span>
-              </b-nav-item>
-
-              <b-nav-item>
-                <i class="icon icon-forward"></i><span>Mail</span>
-              </b-nav-item>
-            </b-nav>
-          </b-nav-text>
-        </b-nav>
-      </b-nav-text>
-
-      <b-nav-text tag="li" class="submenu">
-        <a href="#"><i class="icon icon-tags"></i><span>另一二级</span></a>
-
-        <b-nav vertical>
-          <b-nav-item>
-            <i class="icon icon-qrcode"></i><span>Qrcode</span>
-          </b-nav-item>
-
-          <b-nav-item>
-            <i class="icon icon-font"></i><span>QQ</span>
-          </b-nav-item>
-        </b-nav>
-      </b-nav-text>
-
-      <b-nav-item>
-        <i class="icon icon-cog"></i><span>系统设置</span>
-      </b-nav-item>
+      <SecondMenu :menu="menuList"></SecondMenu>
     </b-nav>
   </div>
 </template>
 
 <script>
 import { sidebarMenuFeatures } from "../../assets/admin/js/sidebar";
+import SecondMenu from "@/admin/layout/SecondMenu";
 
 export default {
+  components: {SecondMenu},
   data() {
-    return {};
+    return {
+      menuList:[]
+    };
+  },
+  created() {
+    this.showMenu()
+  },
+  methods: {
+    showMenu:function(){
+      const token = window.localStorage.getItem("customerInfo");
+      this.$http.post("/api/tbMenu/getMenuList",{},{
+        header:{
+          "token":token
+        }
+      }).then(res=>{
+        this.menuList = res.data[0]
+      })
+    }
   },
   mounted() {
     sidebarMenuFeatures();
-  },
-  methods: {}
+  }
 };
 </script>

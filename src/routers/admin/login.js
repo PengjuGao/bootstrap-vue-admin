@@ -1,6 +1,7 @@
 // 登陆
 import AdminLogin from "./../../admin/Login.vue";
-import auth from "../../admin/login/auth";
+//import auth from "../../admin/login/auth";
+import auth from "../../admin/login/login";
 
 // 登陆
 const loginRouter = {
