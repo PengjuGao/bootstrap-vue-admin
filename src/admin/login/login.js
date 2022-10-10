@@ -42,7 +42,7 @@ export default {
     },
     sysuserLogout(){
         this.clearAll();
-        context.vue.$http.get("/system/logout");
+        context.$http.get("/api/system/logout");
     },
 
     clearAll() {

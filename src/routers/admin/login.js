@@ -1,7 +1,7 @@
 // 登陆
 import AdminLogin from "./../../admin/Login.vue";
 //import auth from "../../admin/login/auth";
-import auth from "../../admin/login/login";
+import auth from "../../admin/login/login.js";
 
 // 登陆
 const loginRouter = {
@@ -15,7 +15,7 @@ const logoutRouter = {
   path: "/admin/logout",
   name: "admin-logout",
   beforeEnter(to, from, next) {
-    auth.logout();
+    auth.sysuserLogout();
     next(loginRouter.path);
   }
 };
