@@ -12,6 +12,17 @@ import BootstrapVue from "bootstrap-vue";
 Vue.use(BootstrapVue);
 //axios
 import axios from 'axios'
+axios.interceptors.request.use(
+    config=>{
+      const token = window.localStorage.getItem("customerInfo");
+      if(token){
+        config.headers.token = `${token}`;
+      }
+      return config;
+    },err =>{
+      return Promise.reject(err);
+    }
+)
 Vue.prototype.$http=axios
 
 // bootstrap-vue css
