@@ -40,6 +40,46 @@ const children = [
       import(
         /* webpackChunkName: "admin-timeline" */ "./../../admin/timeline/Example.vue"
       )
+  },
+  {
+    path: "/admin/template",
+    name: "admin-template",
+    component: () =>
+        import(
+            /* webpackChunkName: "admin-timeline" */ "./../../admin/templates/CommonPageList.vue"
+            )
+  },
+  {
+    path: "/admin/dict",
+    name: "admin-dict",
+    component: () =>
+        import(
+            /* webpackChunkName: "admin-timeline" */ "./../../admin/base/TbDict.vue"
+            )
+  },
+  {
+    path: "/admin/permission",
+    name: "admin-permission",
+    component: () =>
+        import(
+            /* webpackChunkName: "admin-timeline" */ "./../../admin/base/TbPermission.vue"
+            )
+  },
+  {
+    path: "/admin/role",
+    name: "admin-role",
+    component: () =>
+        import(
+            /* webpackChunkName: "admin-timeline" */ "./../../admin/base/TbRole.vue"
+            )
+  },
+  {
+    path: "/admin/user",
+    name: "admin-user",
+    component: () =>
+        import(
+            /* webpackChunkName: "admin-timeline" */ "./../../admin/base/TbUser.vue"
+            )
   }
 ];
 

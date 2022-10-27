@@ -23,11 +23,32 @@ axios.interceptors.request.use(
       return Promise.reject(err);
     }
 )
+axios.interceptors.response.use(
+    response => {
+       if(response.data.errorCode === "-2222"){
+            router.replace(adminLoginRouter)
+        } else if (response.data.errorCode !== "200") {
+            this.$bvModal.msgBoxOk("发生错误:"+JSON.stringify(response.data),{title:"业务错误"})
+        }
+        return response;
+    },
+    error => {
+        if (error.response) {
+            this.$bvModal.msgBoxConfirm("系统错误，请联系管理员",{
+                title:"错误提示"
+            })
+        }
+        // 返回接口返回的错误信息
+        return Promise.reject(error.response.data)
+    }
+)
+
 Vue.prototype.$http=axios
 
 // bootstrap-vue css
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import {adminLoginRouter} from "@/routers/admin/login";
 
 // vue config
 Vue.config.productionTip = false; // 设置为 false 以阻止 vue 在启动时生成生产提示。(默认值：true)

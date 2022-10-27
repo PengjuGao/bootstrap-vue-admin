@@ -227,6 +227,7 @@ function menuFeatures() {
     .getElementsByTagName("a")[0];
   // 菜单节点
   const menuDom = document.getElementById(menuIDName);
+
   // 节点集合
   const domCollection = {
     sidebar: sidebarDom,

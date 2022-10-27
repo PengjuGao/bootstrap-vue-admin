@@ -65,7 +65,7 @@ export default {
   methods:{
     doIt(){
       this.$http.get("api/test/test").then(res=>{
-        console.log("======res.data======"+res.data)
+        console.log("======res.data======"+JSON.stringify(res.data))
       })
     }
   },

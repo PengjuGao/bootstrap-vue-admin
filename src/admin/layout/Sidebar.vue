@@ -29,21 +29,26 @@ export default {
   components: {SecondMenu},
   data() {
     return {
-      menuList:[]
+      menuList:null
     };
   },
-  created() {
-    this.showMenu()
-  },
+  /*created() {
+    this.showMenu();
+    console.log("----created")
+  },*/
   methods: {
     showMenu:function(){
       this.$http.post("/api/tbMenu/getMenuList").then(res=>{
-        this.menuList = res.data[0]
+        this.menuList = res.data.data[0]
+        console.log("================>"+JSON.stringify(this.menuList))
       })
     }
   },
   mounted() {
-    sidebarMenuFeatures();
+    this.showMenu();
+  },
+  updated() {
+    sidebarMenuFeatures()
   }
 };
 </script>
