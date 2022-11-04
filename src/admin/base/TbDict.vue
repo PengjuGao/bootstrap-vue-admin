@@ -37,7 +37,7 @@
       <b-col>
         <b-form-group>
           <b-button class="mr-2" size="sm"  variant="info">查询</b-button>
-          <b-button class="mr-2" size="sm"  variant="info">重置</b-button>
+          <b-button class="mr-2" size="sm"  variant="primary">重置</b-button>
         </b-form-group>
       </b-col>
     </b-row>
@@ -52,9 +52,9 @@
       </template>
       <template v-slot:table-caption>
         <b-button class="mr-2" size="sm"  variant="info">新增</b-button>
-        <b-button class="mr-2" size="sm"  variant="info">批量删除</b-button>
+        <b-button class="mr-2" size="sm"  variant="danger">批量删除</b-button>
         <b-button class="mr-2" size="sm"  variant="info">导出</b-button>
-        <b-button class="mr-2" size="sm"  variant="info">导入</b-button>
+        <b-button class="mr-2" size="sm"  variant="primary">导入</b-button>
       </template>
     </b-table>
     <b-pagination align="right"></b-pagination>
@@ -114,10 +114,13 @@ export default {
     //导入
     dataImport:function (){
 
+    },
+    initData:function(){
+
     }
   },
   mounted() {
-
+    this.initData();
   },
   components:{
     ItemAdd,
