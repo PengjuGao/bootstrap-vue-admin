@@ -80,6 +80,22 @@ const children = [
         import(
             /* webpackChunkName: "admin-timeline" */ "./../../admin/base/TbUser.vue"
             )
+  },
+  {
+    path: "/admin/menu",
+    name: "admin-menu",
+    component: () =>
+        import(
+            /* webpackChunkName: "admin-timeline" */ "./../../admin/base/TbMenu.vue"
+            )
+  },
+  {
+    path: "/admin/common/init",
+    name: "admin-common-init",
+    component: () =>
+        import(
+            /* webpackChunkName: "admin-timeline" */ "./../../admin/base/TbCommonInit.vue"
+            )
   }
 ];
 

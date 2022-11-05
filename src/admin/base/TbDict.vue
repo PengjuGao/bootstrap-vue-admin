@@ -8,32 +8,34 @@
     <b-row>
       <b-col cols="4">
         <b-form-group label="分类"   label-cols="2">
-          <b-select value="1" :options="options1">
+          <b-select  v-model="search.category" :options="initData.categoryList"  text-field="label" value-field="value" @change="categoryChange">
+            <b-select-option :value="null">请选择</b-select-option>
           </b-select>
         </b-form-group>
       </b-col>
       <b-col cols="4">
         <b-form-group label="key名称"   label-cols="2">
-          <b-select value="1" :options="options2" text-field="text11" value-field="value11">
+          <b-select v-model="search.keyCode" :options="initData.keyList" text-field="label" value-field="value" @change="keyChange">
+            <b-select-option :value="null">请选择</b-select-option>
           </b-select>
         </b-form-group>
       </b-col>
       <b-col>
         <b-form-group label="value值" label-cols="2" >
-          <b-input placeholder="值"></b-input>
+          <b-input placeholder="值" v-model="search.keyValue" @keyup="textKeyUp"></b-input>
         </b-form-group>
       </b-col>
     </b-row>
     <b-row>
       <b-col cols="4">
         <b-form-group label="描述" label-cols="2" >
-          <b-input placeholder="描述信息" size="sm"></b-input>
+          <b-input placeholder="描述信息" v-model="search.remark" size="sm"></b-input>
         </b-form-group>
       </b-col>
       <b-col>
         <b-form-group>
-          <b-button class="mr-2" size="sm"  variant="info">查询</b-button>
-          <b-button class="mr-2" size="sm"  variant="primary">重置</b-button>
+          <b-button class="mr-2" size="sm"  variant="info" @click="query">查询</b-button>
+          <b-button class="mr-2" size="sm"  variant="primary" type="reset">重置</b-button>
         </b-form-group>
       </b-col>
     </b-row>
@@ -47,14 +49,18 @@
       </b-col>
     </b-row>
     </b-modal>
-    <b-table  striped bordered :fields="fields" :items="items"  small responsive caption-top>
+    <b-table  striped bordered :fields="initData.fields" :items="tablePage.items"  small
+              responsive caption-top :per-page="search.pageSize"
+              id="table"
+    >
       <template v-slot:head(batchSelect)>
         <b-checkbox v-model="batchSelectStatus"></b-checkbox>
       </template>
       <template v-slot:cell(action)>
-        <b-button class="mr-2" size="sm" pill variant="danger">删</b-button>
-        <b-button class="mr-2" size="sm" pill variant="info" @click="$bvModal.show('update')">改</b-button>
-        <b-button class="mr-2" size="sm" pill variant="primary">查</b-button>
+        <b-button class="mr-2" size="sm" pill variant="primary">详情</b-button>
+        <b-button class="mr-2" size="sm" pill variant="info" @click="$bvModal.show('update')">更新</b-button>
+        <b-button class="mr-2" size="sm" pill variant="danger">删除</b-button>
+
       </template>
       <template v-slot:cell(batchSelect)="row">
         <b-checkbox v-model="selectedArr[row.index]"></b-checkbox>
@@ -66,7 +72,16 @@
         <b-button class="mr-2" size="sm"  variant="primary" @click="$bvModal.show('importFile')">导入</b-button>
       </template>
     </b-table>
-    <b-pagination align="right"></b-pagination>
+<!--    <b-pagination align="right" first-text="首页" prev-text="上一页" next-text="下一页" last-text="末页"
+                   v-model="search.pageNo" :total-rows="tablePage.totalNum" per-page="2"
+                  @page-click="doPageQuery"
+    ></b-pagination>-->
+    <b-pagination-nav align="right" first-text="首页" prev-text="上一页" next-text="下一页" last-text="末页"
+      :number-of-pages="tablePage.totalPages===0?1:tablePage.totalPages"  v-model="search.pageNo" @change="changePage" :link-gen="linkGen"
+      v-show="tablePage.totalPages>0"
+    >
+
+    </b-pagination-nav>
     <b-modal id="add" title="新增" ok-title="确定" cancel-title="取消" centered @ok="add()">
       <b-form-group label="分类" label-cols="3">
         <b-input></b-input>
@@ -97,40 +112,46 @@ const fields = [
   {key: "remark", label: "描述信息", sortable: true},
   {key: "action", label: "操作"}
 ];
-const items = [
-  {id: 1, category: "robot", categoryName: '机器人', key: "clean",keyName:"打扫",value:"小米打扫机器人",remark:"生产日期：近期，无线充电"},
-  {id: 2, category: "robot", categoryName: '机器人', key: "clean",keyName:"打扫",value:"小米打扫机器人",remark:"生产日期：近期，无线充电"},
-  {id: 3, category: "book", categoryName: '书籍', key: "life",keyName:"生活",value:"日常百科全书",remark:"烹饪，医疗，健康"},
-  {id: 4, category: "book", categoryName: '书籍', key: "math",keyName:"数学",value:"高等数学第三册",remark:"初三年纪高等数学"},
-  {id: 5, category: "robot", categoryName: '机器人', key: "clean",keyName:"打扫",value:"小米打扫机器人",remark:"生产日期：近期，无线充电"},
 
-];
-
-const options1  = [
-    {text:"hello",value:1},
-    {text:"hello22",value:2},
-    {text:"hello33",value:3},
-]
-
-const options2  = [
-  {text11:"hello",value11:1},
-  {text11:"hello22",value11:2},
-  {text11:"hello33",value11:3},
-]
-
+import commomInitData from "@/admin/initdata/initData";
 export default {
   name: "TbDict.vue",
   data(){
     return {
-      fields:fields,
-      items:items,
-      options1:options1,
-      options2:options2,
+
       batchSelectStatus:false,
-      selectedArr:[]
+      selectedArr:[],
+      //查询条件的数据
+      search:{
+        category:null,
+        keyCode:null,
+        keyValue:"",
+        remark:"",
+        pageNo:1,
+        pageSize:2
+      },
+      //初始化的数据
+      initData:{
+        fields:fields,
+        categoryList:[],
+        keyList:[],
+      },
+      //表格及分页数据
+      tablePage:{
+        items:[],
+        totalNum:0,
+        totalPages:1
+      },
+
     }
   },
   methods:{
+
+    query:function(){
+      this.search.pageNo=1;
+      console.log("--"+this.search.pageNo+"---query--list---"+JSON.stringify(this.search))
+      this.list();
+    },
     //增
     add:function(){
       this.$bvModal.msgBoxOk("are you ok?")
@@ -145,7 +166,13 @@ export default {
     },
     //查
     list:function (){
-
+      this.$http.post("/api/tbDict/pageList",this.search).then(resp=>{
+          //console.log("------resp.data.data==>"+JSON.stringify(resp.data.data))
+          console.log("------current.page----is---"+this.search.pageNo)
+          this.tablePage.items=resp.data.data.list;
+          this.tablePage.totalNum=resp.data.data.total;
+          this.tablePage.totalPages=resp.data.data.pages;
+      })
     },
     //导出
     dataExport:function (){
@@ -155,14 +182,42 @@ export default {
     dataImport:function (){
 
     },
-    initData:function(){
-      this.$http.post("/common/init/data",{compoment:"dict",category:"select"}).then(resp=>{
-        this.fields = resp.data.data();
+    init:function(){
+      commomInitData.tempData({pageCode:"tb_dict",initCode:"category"}).then(resp=>{
+        console.log("resp====>"+JSON.stringify(resp))
+        this.initData.categoryList=resp
+      });
+      commomInitData.tempData({pageCode:"tb_dict",initCode:"key",category:this.search.category}).then(resp=>{
+        console.log("resp====>"+JSON.stringify(resp))
+        this.initData.keyList=resp
       })
-    }
+      this.list();
+    },
+    categoryChange:function(){
+      commomInitData.tempData({pageCode:"tb_dict",initCode:"key",category:this.search.category}).then(resp=>{
+        console.log("resp====>"+JSON.stringify(resp))
+        this.initData.keyList=resp
+        this.search.keyValue=null
+      })
+    },
+    keyChange:function(){
+      console.log("do----nothing----")
+    },
+    textKeyUp:function(){
+      console.log("-----"+this.search.keyValue)
+    },
+    linkGen:function(){
+      return "#"
+    },
+    changePage:function(pageNum){
+      //console.log("current page===>"+this.search.pageNo+"=====>target page==>"+pageNum)
+      this.search.pageNo=pageNum;
+      this.list();
+    },
+
   },
   mounted() {
-    this.initData();
+    this.init();
   },
 
 }

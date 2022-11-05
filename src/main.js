@@ -28,9 +28,10 @@ axios.interceptors.response.use(
        if(response.data.errorCode === "-2222"){
             router.replace(adminLoginRouter)
         } else if (response.data.errorCode !== "200") {
-            this.$bvModal.msgBoxOk("发生错误:"+JSON.stringify(response.data),{title:"业务错误"})
+            console.log("发生错误:"+JSON.stringify(response.data))
+            //this.$bvModal.msgBoxOk("发生错误:"+JSON.stringify(response.data),{title:"业务错误"})
         }
-        return response;
+        return response ;
     },
     error => {
         if (error.response) {
@@ -42,6 +43,7 @@ axios.interceptors.response.use(
         return Promise.reject(error.response.data)
     }
 )
+
 
 Vue.prototype.$http=axios
 
