@@ -39,8 +39,7 @@ export default {
   methods: {
     showMenu:function(){
       this.$http.post("/api/tbMenu/getMenuList").then(res=>{
-        this.menuList = res.data.data[0]
-        console.log("================>"+JSON.stringify(this.menuList))
+        this.menuList = res.data.data
       })
     }
   },

@@ -62,7 +62,7 @@ export default {
             }else {
                 //正常登录，展示信息并存放数据
                 this.clearAll();
-                window.localStorage.setItem(tokenKey, JSON.stringify(datum.data[0]));
+                window.localStorage.setItem(tokenKey, JSON.stringify(datum.data));
                 callback(true)
             }
         })
