@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    let obj = {
+        name:"hello",
+        age:100,
+        get xxname(){
+            console.log("get")
+        },
+
+        set xxname(data){
+            console.log("set",data)
+        }
+    }
+
+    console.log(Object.keys(obj))
+
+    console.log(Object.values(obj))
+    console.log(Object.entries(obj))
+
+
+    let m = new Map(Object.entries(obj))
+    console.log(m)
+
+    console.log(Object.getOwnPropertyDescriptors(obj))
+    console.log(Object.getOwnPropertySymbols(obj))
+
+    let objtest = {...obj}
+    console.log(objtest.name,objtest.age)
+</script>
+</body>
+</html>

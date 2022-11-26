@@ -1,9 +1,15 @@
 import context from "@/main";
 
-const initData = function (param) {
-     context.$http.post("/api/common/init/data", param).then(resp => {
-        return resp.data.data;
-    })
+
+/*const initData = async function (param) {
+     let result = await context.$http.post("/api/common/init/data", param);
+     console.log("----init---"+JSON.stringify(result))
+    return result.data.data;
+};*/
+
+const initData =  function (param) {
+     return Promise.resolve(context.$http.post("/api/common/init/data", param));
+
 };
 
 const tempData = async function(param){

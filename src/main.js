@@ -25,6 +25,7 @@ axios.interceptors.request.use(
 )
 axios.interceptors.response.use(
     response => {
+        //console.log("=====interceptor====>"+JSON.stringify(response))
        if(response.data.errorCode === "-2222"){
             router.replace(adminLoginRouter)
         } else if (response.data.errorCode !== "200") {

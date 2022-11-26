@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <script src="test1.js" type="module"></script>-->
+<!--    <script src="test2.js" type="module"></script>-->
+
+</head>
+<body>
+<div class="mydiv">123</div>
+
+
+<script type="module">
+    //导入方法
+    import {A1 as testA,A2,test} from './test3.js'
+    import obj2 from './test2.js'
+    testA()
+    A2()
+    test()
+
+    obj2.test()
+
+    function testA1(){
+        let arr = [1,2,3,4,5]
+        let b = arr.includes(3);
+        console.log("------hhhh-----",b)
+    }
+    testA1()
+</script>
+</body>
+</html>

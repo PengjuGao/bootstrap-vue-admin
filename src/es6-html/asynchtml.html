@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    function ajax1(){
+        return new Promise((resolve,reject) => {
+            setTimeout(()=>{
+                resolve("6666")
+            },3000)
+        })
+    }
+
+    function ajax2(res1){
+        return new Promise((resolve,reject) => {
+            setTimeout(()=>{
+                reject("6666"+res1)
+            },3000)
+        })
+    }
+
+    async function test(){
+        try {
+            console.log("----aysnc---")
+            //return Promise.resolve("666")
+            /*return new Promise((resolve,reject)=>{
+                reject("data-111")
+            })*/
+            let a = await ajax1();
+            console.log("-----xxx----", a)
+            let a1 = await ajax2(a)
+            console.log("-----xxx----", a1)
+            //return a1;
+            console.log("123123123uuu" + a1)
+        } catch (e) {
+            console.log("error"+e)
+        }
+    }
+    test()
+    //let xx = test();
+    /*test().then(resp=>{
+        console.log("result:===>",resp)
+    })*/
+
+    /*let xx = test()
+    console.log(xx)
+    xx.then(resp=>{
+        console.log(456,resp)
+    }
+    ).catch(err=>{
+        console.log("--eroor===",err)
+    })*/
+</script>
+</body>
+</html>
