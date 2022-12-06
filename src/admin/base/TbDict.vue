@@ -62,7 +62,7 @@
       <template v-slot:table-caption>
         <b-button class="mr-2" size="sm" variant="info" @click="addData=$options.data().addData;$bvModal.show('add')">新增</b-button>
         <b-button class="mr-2" size="sm" variant="danger" @click="batchDelete">批量删除</b-button>
-        <b-button class="mr-2" size="sm" variant="info">导出</b-button>
+<!--        <b-button class="mr-2" size="sm" variant="info">导出</b-button>-->
       </template>
     </b-table>
     <!--    <b-pagination align="right" first-text="首页" prev-text="上一页" next-text="下一页" last-text="末页"
@@ -345,10 +345,10 @@ export default {
       })
     },
     keyChange: function () {
-      console.log("do----nothing----")
+      //console.log("do----nothing----")
     },
     textKeyUp: function () {
-      console.log("-----" + this.search.keyValue)
+      //console.log("-----" + this.search.keyValue)
     },
     linkGen: function () {
       return "#"
@@ -359,7 +359,7 @@ export default {
       this.list();
     },
     selectAllCloumns: function(){
-      console.log("====>"+this.dataStatus.batchSelectStatus)
+      //console.log("====>"+this.dataStatus.batchSelectStatus)
       //this.tablePage.items.forEach(x=>x.flag=this.dataStatus.batchSelectStatus)
       for (let i = 0; i < this.tablePage.items.length; i++) {
          let obj = this.tablePage.items[i];
