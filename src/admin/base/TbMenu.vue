@@ -7,25 +7,20 @@
       </b-breadcrumb>
       <hr class="mt-0"/>
       <b-row>
-        <b-col cols="3">
-          <b-form-group label="父菜单" label-cols="3">
-            <b-select v-model="search.parentId" :options="initData.parentList" text-field="label" value-field="value"
-                      @change="categoryChange">
+        <b-col cols="5">
+          <b-form-group label="角色名称" label-cols="2">
+            <b-select v-model="search.roleName" :options="initData.roleNameList" text-field="label" value-field="value"
+                      @change="roleNameChange">
               <b-select-option :value="null">请选择</b-select-option>
             </b-select>
           </b-form-group>
         </b-col>
-        <b-col cols="3">
-          <b-form-group label="菜单名称" label-cols="4">
-            <b-select v-model="search.menuName" :options="initData.menuNameList" text-field="label" value-field="value"
+        <b-col cols="5">
+          <b-form-group label="角色编码" label-cols="2">
+            <b-select v-model="search.roleCode" :options="initData.keyList" text-field="label" value-field="value"
                       @change="keyChange">
               <b-select-option :value="null">请选择</b-select-option>
             </b-select>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="路径" label-cols="2">
-            <b-input placeholder="值" v-model="search.redictPath" @keyup="textKeyUp"></b-input>
           </b-form-group>
         </b-col>
         <b-col>
@@ -79,23 +74,15 @@
     <b-modal id="add" title="新增" ok-title="确定" cancel-title="取消" centered @ok="handleOk($event,'add')" scrollable>
       <b-form validated ref="addForm" @submit.stop.prevent="add">
         <b-alert dismissible dismiss-label="x" :show="dataStatus.addFormSummitErrorStatus">数据提交失败，请联系管理员</b-alert>
-        <b-form-group label="分类名称" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="addData.categoryName" required></b-input>
+
+        <b-form-group label="角色名称" label-cols="3" invalid-feedback="不能为空" >
+          <b-input v-model="addData.roleName" required></b-input>
         </b-form-group>
-        <b-form-group label="分类code" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="addData.category" required></b-input>
+        <b-form-group label="角色分类" label-cols="3" invalid-feedback="不能为空" >
+          <b-input v-model="addData.roleCode" required></b-input>
         </b-form-group>
-        <b-form-group label="key名称" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="addData.keyName" required></b-input>
-        </b-form-group>
-        <b-form-group label="key code" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="addData.keyCode" required></b-input>
-        </b-form-group>
-        <b-form-group label="key 值" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="addData.keyValue" required></b-input>
-        </b-form-group>
-        <b-form-group label="描述" label-cols="3" invalid-feedback="不能为空" >
-          <b-textarea v-model="addData.remark" required></b-textarea>
+        <b-form-group label="角色状态" label-cols="3" invalid-feedback="不能为空" >
+          <b-input v-model="addData.status" required></b-input>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -104,46 +91,28 @@
     <b-modal id="update" title="更新" ok-title="确定" cancel-title="取消" @ok="handleOk($event,'update')">
       <b-form validated ref="updateForm" @submit.stop.prevent="update">
         <b-alert dismissible dismiss-label="x" :show="dataStatus.updateFormSummitErrorStatus">数据提交失败，请联系管理员</b-alert>
-        <b-form-group label="分类名称" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="updateData.categoryName" required></b-input>
+        <b-form-group label="角色名称" label-cols="3" invalid-feedback="不能为空" >
+          <b-input v-model="updateData.roleName" required></b-input>
         </b-form-group>
-        <b-form-group label="分类code" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="updateData.category" required></b-input>
+        <b-form-group label="角色编码" label-cols="3" invalid-feedback="不能为空" >
+          <b-input v-model="updateData.roleCode" required></b-input>
         </b-form-group>
-        <b-form-group label="key名称" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="updateData.keyName" required></b-input>
-        </b-form-group>
-        <b-form-group label="key code" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="updateData.keyCode" required></b-input>
-        </b-form-group>
-        <b-form-group label="key 值" label-cols="3" invalid-feedback="不能为空" >
-          <b-input v-model="updateData.keyValue" required></b-input>
-        </b-form-group>
-        <b-form-group label="描述" label-cols="3" invalid-feedback="不能为空" >
-          <b-textarea v-model="updateData.remark" required></b-textarea>
+        <b-form-group label="角色状态" label-cols="3" invalid-feedback="不能为空" >
+          <b-input v-model="updateData.status" required></b-input>
         </b-form-group>
       </b-form>
     </b-modal>
 
     <!--详情弹窗-->
     <b-modal id="detail" title="详情" ok-title="确定" cancel-title="取消" cancel-disabled>
-      <b-form-group label="分类名称" label-cols="3" >
-        <b-input v-model="updateData.categoryName" disabled></b-input>
+      <b-form-group label="角色名称" label-cols="3" invalid-feedback="不能为空" >
+        <b-input v-model="updateData.roleName" required></b-input>
       </b-form-group>
-      <b-form-group label="分类code" label-cols="3"  >
-        <b-input v-model="updateData.category" disabled></b-input>
+      <b-form-group label="角色编码" label-cols="3" invalid-feedback="不能为空" >
+        <b-input v-model="updateData.roleCode" required></b-input>
       </b-form-group>
-      <b-form-group label="key名称" label-cols="3"  >
-        <b-input v-model="updateData.keyName" disabled></b-input>
-      </b-form-group>
-      <b-form-group label="key code" label-cols="3"  >
-        <b-input v-model="updateData.keyCode" disabled></b-input>
-      </b-form-group>
-      <b-form-group label="key 值" label-cols="3"  >
-        <b-input v-model="updateData.keyValue" disabled></b-input>
-      </b-form-group>
-      <b-form-group label="描述" label-cols="3"  >
-        <b-textarea v-model="updateData.remark" disabled></b-textarea>
+      <b-form-group label="角色状态" label-cols="3" invalid-feedback="不能为空" >
+        <b-input v-model="updateData.status" required></b-input>
       </b-form-group>
     </b-modal>
   </div>
@@ -154,19 +123,18 @@
 const fields = [
   {key: "batchSelect", label: "多选"},
   {key: "id", label: "编号", sortable: true},
-  {key: "parentId", label: "父编号", sortable: true},
+  {key: "parentId", label: "父菜单", sortable: true},
   {key: "menuName", label: "菜单名称", sortable: false},
-  {key: "redictPath", label: "跳转路径", sortable: true},
+  {key: "redictPath", label: "路径", sortable: true},
   {key: "icon", label: "图标", sortable: true},
-  {key: "sort", label: "序号", sortable: true},
-  {key: "createTime", label: "创建时间", sortable: true},
+  {key: "sort", label: "排序", sortable: true},
   {key: "action", label: "操作"}
 ];
 
 import commomInitData from "@/admin/initdata/initData";
 
 export default {
-  name: "TbDict.vue",
+  name: "tbRole.vue",
   data() {
     return {
 
@@ -175,15 +143,13 @@ export default {
       search: {
         parentId: null,
         menuName: null,
-        redictPath: "",
+        redictPath:null,
         pageNo: 1,
         pageSize: 5
       },
       //初始化的数据
       initData: {
         fields: fields,
-        parentList: [],
-        menuNameList: [],
       },
       //表格及分页数据
       tablePage: {
@@ -195,16 +161,19 @@ export default {
       addData: {
         parentId: null,
         menuName: null,
-        redictPath: null,
-        sort: null,
+        redictPath:null,
+        sort:null,
+        icon:null,
       },
       //更新数据:
       updateData:{
         id:null,
         parentId: null,
         menuName: null,
-        redictPath: null,
-        sort: null,
+        redictPath:null,
+        sort:null,
+        icon:null,
+
       },
       dataStatus: {
         addFormSummitErrorStatus: false,
@@ -314,22 +283,22 @@ export default {
       })
     },
     init: function () {
-      commomInitData.initData({pageCode: "tb_menu", initCode: "parentList"}).then(resp => {
+      /*commomInitData.initData({pageCode: "tb_dict", initCode: "roleName"}).then(resp => {
         //console.log("resp====>" + JSON.stringify(resp))
-        this.initData.parentList = resp.data.data;
+        this.initData.roleNameList = resp.data.data;
       });
-      commomInitData.initData({pageCode: "tb_menu", initCode: "menuNameList", category: this.search.category}).then(resp => {
+      commomInitData.initData({pageCode: "tb_dict", initCode: "key", roleName: this.search.roleName}).then(resp => {
         //console.log("resp====>" + JSON.stringify(resp))
-        this.initData.menuNameList = resp.data.data
-      })
+        this.initData.keyList = resp.data.data
+      })*/
       this.list();
     },
-    categoryChange: function () {
-      commomInitData.initData({pageCode: "tb_menu", initCode: "menuNameList", category: this.search.category}).then(resp => {
+    roleNameChange: function () {
+      commomInitData.initData({pageCode: "tb_dict", initCode: "key", roleName: this.search.roleName}).then(resp => {
         //console.log("resp====>" + JSON.stringify(resp))
         this.initData.keyList = resp.data.data
         this.search.keyValue = null
-        this.search.keyCode =null
+        this.search.roleCode =null
       })
     },
     keyChange: function () {
